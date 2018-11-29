@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name: WooCommerce Subscriptions - Hide Cancel Button - Sub Length
  * Plugin URI:  https://github.com/jrick1229/wcs-hide-cancel-sub-length
@@ -32,22 +31,22 @@
  * @since   1.0.0
  */
 
+/**
+ * Remove the "cancel" button.
+ *
+ * @param array           $actions      Array of action buttons.
+ * @param WC_Subscription $subscription The subscription object.
+ *
+ * @return array The filtered array of actions.
+ */
 function eg_remove_my_subscriptions_button( $actions, $subscription ) {
-    
-    if ( $subscription->get_time( 'end' ) === 0 || $next_payment_timestamp > $subscription->get_time( 'end' ) ) {
-    }
-    else {
-        foreach ( $actions as $action_key => $action ) {
-            switch ( $action_key ) {
-                  case 'cancel':			// Hide "Cancel" button on subscriptions that are "active" or "on-hold"?
-                    unset( $actions[ $action_key ] );
-                    break;
-                default: 
-                    error_log( '-- $action = ' . print_r( $action, true ) );
-                    break;
-            }
-        }
-    }
+	if ( $subscription->get_time( 'end' ) === 0 || $next_payment_timestamp > $subscription->get_time( 'end' ) ) {
+		return $actions;
+	}
+
+	// Hide "Cancel" button.
+	unset( $actions['cancel'] );
+
 	return $actions;
 }
 add_filter( 'wcs_view_subscription_actions', 'eg_remove_my_subscriptions_button', 100, 2 );
