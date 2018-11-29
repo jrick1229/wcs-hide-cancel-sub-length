@@ -34,9 +34,6 @@
 
 function eg_remove_my_subscriptions_button( $actions, $subscription ) {
     
-    $subscription_length = WC_Subscriptions_Product::get_length( $product_id );
-    
-    //if ( $subscription_length > 0 ) {
     if ( $subscription->get_time( 'end' ) === 0 || $next_payment_timestamp > $subscription->get_time( 'end' ) ) {
     }
     else {
